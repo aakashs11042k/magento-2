@@ -1,0 +1,82 @@
+<?php $helper = $this->helper(Vendor\TelegramChat\Helper\Data::class);?>
+
+<?php if ($helper->getTGStatus()) : ?>
+    <div id="telegramchat">
+        <a href="https://web.telegram.com/send?phone=<?= /* @noEscape */ $helper->getTGPhone(); ?>&amp;text=<?= /* @noEscape */ $helper->getTGMessage(); ?>" target="_blank" class="btn-web <?= /* @noEscape */ $helper->getTGPosition() ?>">
+            <img class="dynImg" src="<?= /* @noEscape */ $helper->getTGIconUrl(); ?>" alt="Telegram Chat">
+        </a>
+        <a href="https://t.me/<?= /* @noEscape */ $helper->getTGPhone(); ?>?text=<?= /* @noEscape */ $helper->getTGMessage(); ?>" target="_blank" class="btn-mobile <?= /* @noEscape */ $helper->getTGPosition() ?>">
+            <img src="<?= /* @noEscape */ $helper->getTGIconUrl(); ?>" alt="Telegram Chat">
+        </a>
+    </div>
+    <?php
+    $telegramRelPx1 = '0px';
+    $telegramRelPx2 = '0px';
+    $telegramRelPx = $helper->getTGRelPx();
+    if($telegramRelPx) {
+        $telegramRelPxArray = explode(" ",$telegramRelPx);
+        $telegramRelPx1 = trim($telegramRelPxArray[0]);
+        if(isset($telegramRelPxArray[1])) {
+            $telegramRelPx2 = trim($telegramRelPxArray[1]);
+        }
+    }
+    ?>
+    <style type="text/css">
+        #telegramchat a.top-left {
+            top: <?php echo $telegramRelPx1; ?>;
+            left: <?php echo $telegramRelPx2; ?>;
+        }
+
+        #telegramchat a.top-right {
+            top: <?php echo $telegramRelPx1; ?>;
+            right: <?php echo $telegramRelPx2; ?>;
+        }
+
+        #telegramchat a.top-middle {
+            top: <?php echo $telegramRelPx1; ?>;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #telegramchat a.left-middle {
+            left: <?php echo $telegramRelPx1; ?>;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #telegramchat a.right-middle {
+            right: <?php echo $telegramRelPx1; ?>;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #telegramchat a.bottom-middle {
+            bottom: <?php echo $telegramRelPx1; ?>;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #telegramchat a.bottom-left {
+            left: <?php echo $telegramRelPx1; ?>;
+            bottom: 0px;
+        }
+
+        #telegramchat a.bottom-right {
+            right: <?php echo $telegramRelPx1; ?>;
+            bottom: <?php echo $telegramRelPx2; ?>;
+        }
+
+    </style>
+
+    <script>
+        require(['jquery'], function($) {
+            $(document).find("#telegramchat .btn-web img.dynImg").css("display","none !important");
+            setTimeout(function(){
+                $(document).ready(function(){
+                    $(document).find("#telegramchat .btn-web img.dynImg").css("position","unset !important");
+                    $(document).find("#telegramchat .btn-web img.dynImg").css("display","block !important");
+                });
+            },1500);
+        });
+    </script>
+<?php endif; ?>
